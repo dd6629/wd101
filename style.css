@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  form > div {
+    margin-bottom: 10px;
+  }
+  
+  form > div > label {
+    display: inline-block;
+    width: 100px;
+  }
+  
+  form > div > input[type="text"],
+  form > div > input[type="email"],
+  form > div > input[type="password"],
+  form > div > input[type="date"] {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 200px;
+  }
+  
+  form > div > input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  form > div > button[type="submit"] {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  form > div > button[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+  }
