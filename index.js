@@ -41,7 +41,7 @@ sub.addEventListener("click", (event) => {
         dEl.setCustomValidity("");
     }
 
-    if (sub.checkValidity() === true) {
+    if (nEl.value !== "" && eEl.value !== "" && pEl.value !== "" && dEl.value !== "") {
         const userEntry = {
             name: nEl.value,
             email: eEl.value,
