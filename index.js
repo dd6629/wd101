@@ -39,19 +39,18 @@ sub.addEventListener("click", (event) => {
         dEl.setCustomValidity("Age 18 to 55 only");
     } else {
         dEl.setCustomValidity("");
-    }
-
-    if (nEl.value !== "" && eEl.value !== "" && pEl.value !== "" && dEl.value !== "") {
-        const userEntry = {
-            name: nEl.value,
-            email: eEl.value,
-            password: pEl.value,
-            dob: dEl.value,
-            acceptTerms: aTEl.checked,
-        };
-        uE.push(userEntry);
-        localStorage.setItem("userEntries", JSON.stringify(uE));
-        dEs();
+        if (nEl.validity.valid && eEl.validity.valid && pEl.validity.valid && dEl.validity.valid) {
+            const userEntry = {
+                name: nEl.value,
+                email: eEl.value,
+                password: pEl.value,
+                dob: dEl.value,
+                acceptTerms: aTEl.checked,
+            };
+            uE.push(userEntry);
+            localStorage.setItem("userEntries", JSON.stringify(uE));
+            dEs();
+        }
     }
 });
 
