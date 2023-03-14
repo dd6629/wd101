@@ -1,98 +1,102 @@
-// Define an array to store user entries
-let userEntries = [];
 
-// Function to retrieve user entries from local storage
-const retrieveEntries = () => {
-  let entries = localStorage.getItem("userEntries");
-  if (entries) {
-    entries = JSON.parse(entries);
+let us = [];
+
+
+const ret = () => {
+  let ent = localStorage.getItem("us");
+  if (ent) {
+    ent = JSON.parse(ent);
   } else {
-    entries = [];
+    ent = [];
   }
-  return entries;
+  return ent;
 };
 
-// Function to display user entries in a table
-const displayEntries = () => {
-  const entries = retrieveEntries();
-  const table = document.getElementById("user-entries");
 
-  // Clear table body
-  table.innerHTML = "";
+const disp = () => {
+  let ent = ret();
+  const tb = document.getElementById("user-ent");
 
-  // Add table header
-  const headerRow = table.insertRow(0);
-  const nameHeader = headerRow.insertCell(0);
-  const emailHeader = headerRow.insertCell(1);
-  const passwordHeader = headerRow.insertCell(2);
-  const dobHeader = headerRow.insertCell(3);
-  const acceptTermsHeader = headerRow.insertCell(4);
+  
+  tb.innerHTML = "";
+
+  
+  const hr = tb.insertRow(0);
+  const nh= nr.insertCell(0);
+  const eh = nr.insertCell(1);
+  const ph = nr.insertCell(2);
+  const dh = nr.insertCell(3);
+  const ah = nr.insertCell(4);
   nameHeader.innerHTML = "Name";
-  emailHeader.innerHTML = "Email";
-  passwordHeader.innerHTML = "Password";
-  dobHeader.innerHTML = "DOB";
-  acceptTermsHeader.innerHTML = "Accepted Terms?";
+  eh.innerHTML = "Email";
+  ph.innerHTML = "Password";
+  dh.innerHTML = "DOB";
+  ah.innerHTML = "Accepted Terms?";
 
-  // Add table rows
-  entries.forEach((entry) => {
-    const row = table.insertRow();
-    const nameCell = row.insertCell(0);
-    const emailCell = row.insertCell(1);
-    const passwordCell = row.insertCell(2);
-    const dobCell = row.insertCell(3);
-    const acceptTermsCell = row.insertCell(4);
-    nameCell.innerHTML = entry.name;
-    emailCell.innerHTML = entry.email;
-    passwordCell.innerHTML = entry.password;
-    dobCell.innerHTML = entry.dob;
-    acceptTermsCell.innerHTML = entry.acceptTerms ? "Yes" : "No";
+  
+  ent.forEach((entry) => {
+    const r = tb.insertRow();
+    const nc = r.insertCell(0);
+    const ec = r.insertCell(1);
+    const pc = r.insertCell(2);
+    const dc = r.insertCell(3);
+    const ac = r.insertCell(4);
+    nc.innerHTML = entry.n;
+    ec.innerHTML = entry.e;
+    pc.innerHTML = entry.p;
+    dc.innerHTML = entry.d;
+    ac.innerHTML = entry.a ? "Yes" : "No";
   });
 };
 
-// Function to save user form data to local storage
-const saveUserForm = (event) => {
-  event.preventDefault();
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const dob = document.getElementById("dob").value;
-  const acceptTerms = document.getElementById("acceptTerms").checked;
 
-  // Validate user's age
-  const currentYear = new Date().getFullYear();
-  const birthYear = dob.split("-")[0];
-  const age = currentYear - birthYear;
-  if (age < 18 || age > 55) {
-    document.getElementById("dob").style.border = "1px solid red";
-    alert("Your age must be between 18 and 55 years");
+const uf = (event) => {
+  event.preventDefault();
+  const n = document.getElementById("n").value;
+  const e = document.getElementById("e").value;
+  const p = document.getElementById("p").value;
+  const d = document.getElementById("d").value;
+  const a = document.getElementById("a").checked;
+
+  
+  const cd = new Date();
+  const bd = new Date(d);
+  const age = cd.getFullYear() - bd.getFullYear();
+  const md = cd.getMonth() - bd.getMonth();
+  if (md < 0 || (md === 0 && cd.getDate() < bd.getDate())){
+    age--;
+  }
+  if (age < 18 || age < 55){
+    document.getElementById("d").style.border = "1px solid red";
+    alert("Your age must be betwen 18 and 55 years");
     return;
   } else {
-    document.getElementById("dob").style.border = "none";
+    document.getElementById("d").style.border = "none";
   }
-
-  // Create an object with user's form data
+  
   const entry = {
-    name,
-    email,
-    password,
-    dob,
-    acceptTerms,
+    n,
+    e,
+    p,
+    d,
+    a,
   };
 
-  // Add the entry to the userEntries array and save it to local storage
-  userEntries = retrieveEntries();
-  userEntries.push(entry);
-  localStorage.setItem("userEntries", JSON.stringify(userEntries));
+  
+  us = ret();
+  us.push(entry);
+  localStorage.setItem("us", JSON.stringify(us));
 
-  // Display the updated user entries
-  displayEntries();
+  
+  disp();
 
-  // Reset the form
+  
   event.target.reset();
 };
 
-// Add an event listener to the user form submit button
-document.getElementById("user-form").addEventListener("submit", saveUserForm);
 
-// Display the initial user entries
-displayEntries();
+document.getElementById("user-form").addEventListener("submit", uf);
+
+// Display the initial user ent
+disp();
+
