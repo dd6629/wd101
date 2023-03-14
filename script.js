@@ -1,102 +1,58 @@
+let uE = [];
 
-let us = [];
+if (localStorage.getItem("userEntries") === null) {
+  uE = [];
+} else {
+  uE = JSON.parse(localStorage.getItem("userEntries"));
+}
 
-
-const ret = () => {
-  let ent = localStorage.getItem("us");
-  if (ent) {
-    ent = JSON.parse(ent);
-  } else {
-    ent = [];
-  }
-  return ent;
-};
-
-
-const disp = () => {
-  let ent = ret();
-  const tb = document.getElementById("user-ent");
-
-  
-  tb.innerHTML = "";
-
-  
-  const hr = tb.insertRow(0);
-  const nh= nr.insertCell(0);
-  const eh = nr.insertCell(1);
-  const ph = nr.insertCell(2);
-  const dh = nr.insertCell(3);
-  const ah = nr.insertCell(4);
-  nameHeader.innerHTML = "Name";
-  eh.innerHTML = "Email";
-  ph.innerHTML = "Password";
-  dh.innerHTML = "DOB";
-  ah.innerHTML = "Accepted Terms?";
-
-  
-  ent.forEach((entry) => {
-    const r = tb.insertRow();
-    const nc = r.insertCell(0);
-    const ec = r.insertCell(1);
-    const pc = r.insertCell(2);
-    const dc = r.insertCell(3);
-    const ac = r.insertCell(4);
-    nc.innerHTML = entry.n;
-    ec.innerHTML = entry.e;
-    pc.innerHTML = entry.p;
-    dc.innerHTML = entry.d;
-    ac.innerHTML = entry.a ? "Yes" : "No";
+const dEs = () => {
+  const uen = document.getElementById("user-entries");
+  uE.forEach((entry) => {
+    const rows = uen.insertRow();
+    const nC = rows.insertCell(0);
+    const eC = rows.insertCell(1);
+    const pC = rows.insertCell(2);
+    const dC = rows.insertCell(3);
+    const aTC = rows.insertCell(4);
+    nC.innerHTML = entry.name;
+    eC.innerHTML = entry.email;
+    pC.innerHTML = entry.password;
+    dC.innerHTML = entry.dob;
+    aTC.innerHTML = entry.acceptTerms;
   });
 };
 
+const sub = document.getElementById("user-form");
 
-const uf = (event) => {
-  event.preventDefault();
-  const n = document.getElementById("n").value;
-  const e = document.getElementById("e").value;
-  const p = document.getElementById("p").value;
-  const d = document.getElementById("d").value;
-  const a = document.getElementById("a").checked;
+sub.addEventListener("click", (event) => {
+  const nEl = document.getElementById("name");
+  const eEl = document.getElementById("email");
+  const pEl = document.getElementById("password");
+  const dEl = document.getElementById("dob");
+  const aTEl = document.getElementById("acceptTerms");
 
-  
-  const cd = new Date();
-  const bd = new Date(d);
-  const age = cd.getFullYear() - bd.getFullYear();
-  const md = cd.getMonth() - bd.getMonth();
-  if (md < 0 || (md === 0 && cd.getDate() < bd.getDate())){
-    age--;
-  }
-  if (age < 18 || age < 55){
-    document.getElementById("d").style.border = "1px solid red";
-    alert("Your age must be betwen 18 and 55 years");
-    return;
+  let age =
+    new Date().setHours(0, 0, 0, 0) - new Date(dEl.value).setHours(0, 0, 0, 0);
+  age = Math.ceil(age / 1000 / 60 / 60 / 24 / 365);
+  if (age < 18 || age > 55) {
+    dEl.setCustomValidity("Age 18 to 55 only");
   } else {
-    document.getElementById("d").style.border = "none";
+    dEl.setCustomValidity("");
   }
-  
-  const entry = {
-    n,
-    e,
-    p,
-    d,
-    a,
-  };
 
-  
-  us = ret();
-  us.push(entry);
-  localStorage.setItem("us", JSON.stringify(us));
+  if (sub.checkValidity() === true) {
+    const userEntry = {
+      name: nEl.value,
+      email: eEl.value,
+      password: pEl.value,
+      dob: dEl.value,
+      acceptTerms: aTEl.checked,
+    };
+    uE.push(userEntry);
+    localStorage.setItem("userEntries", JSON.stringify(uE));
+    dEs();
+  }
+});
 
-  
-  disp();
-
-  
-  event.target.reset();
-};
-
-
-document.getElementById("user-form").addEventListener("submit", uf);
-
-// Display the initial user ent
-disp();
-
+dEs();
